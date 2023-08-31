@@ -1,33 +1,38 @@
+<!DOCTYPE html>
 <html>
-<h1> Hello World </h1>
+<head>
+    <title>Product Categories and Names</title>
+</head>
+<body>
+    <h1>Hello World</h1>
 
-<?php
-// PHP Data Objects(PDO) Sample Code:
-try {
-    $conn = new PDO("sqlsrv:server = tcp:it-ccdv-sql-freyatest.database.windows.net,1433; Database = IT-CCDV-DB-FreyaTest", "rootAdmin", "{Sheridan!321}");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    <?php
+    // PHP Data Objects(PDO) Sample Code:
+    try {
+        $conn = new PDO("sqlsrv:server = tcp:it-ccdv-sql-freyatest.database.windows.net,1433; Database = IT-CCDV-DB-FreyaTest", "rootAdmin", "{Sheridan!321}");
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // SQL query
-    $sql = "SELECT TOP 20 pc.Name as CategoryName, p.name as ProductName
-            FROM SalesLT.ProductCategory pc
-            JOIN SalesLT.Product p
-            ON pc.productcategoryid = p.productcategoryid";
+        // SQL query
+        $sql = "SELECT TOP 20 pc.Name as CategoryName, p.name as ProductName
+                FROM SalesLT.ProductCategory pc
+                JOIN SalesLT.Product p
+                ON pc.productcategoryid = p.productcategoryid";
 
-    // Execute the query
-    $stmt = $conn->query($sql);
+        // Execute the query
+        $stmt = $conn->query($sql);
 
-    // Fetch and display the results
-    echo "<table>";
-    echo "<tr><th>Category Name</th><th>Product Name</th></tr>";
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "<tr><td>" . $row['CategoryName'] . "</td><td>" . $row['ProductName'] . "</td></tr>";
+        // Fetch and display the results in a table
+        echo "<table border='1'>";
+        echo "<tr><th>Category Name</th><th>Product Name</th></tr>";
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr><td>" . $row['CategoryName'] . "</td><td>" . $row['ProductName'] . "</td></tr>";
+        }
+        echo "</table>";
+
+    } catch (PDOException $e) {
+        print("Error connecting to SQL Server.");
+        die(print_r($e));
     }
-    echo "</table>";
-
-} catch (PDOException $e) {
-    print("Error connecting to SQL Server.");
-    die(print_r($e));
-}
-?>
-
+    ?>
+</body>
 </html>
